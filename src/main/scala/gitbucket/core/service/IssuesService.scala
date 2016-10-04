@@ -210,6 +210,7 @@ trait IssuesService {
                  (implicit s: Session) =
     searchIssueQuery(repos, condition, pullRequest)
         .innerJoin(IssueOutline).on { (t1, t2) => t1.byIssue(t2.userName, t2.repositoryName, t2.issueId) }
+        .sortBy { case (t1, t2) => t1.issueId desc }
         .sortBy { case (t1, t2) =>
           (condition.sort match {
             case "created"  => t1.registeredDate
